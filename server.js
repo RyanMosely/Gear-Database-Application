@@ -23,7 +23,7 @@ app.use(express.json());
 //------- End routes
 
 app.get("*", (req, res) => {
-  const rootHtmlPath = path.resolve(__dirname, "..", "/client", "/public", "index.html");
+  const rootHtmlPath = path.resolve("./client/public", "index.html");
   res.sendFile(rootHtmlPath);
 });
 
