@@ -1,0 +1,29 @@
+{"users": [{
+    "ownerOperator": [{
+        "id": "",
+        "name": "",
+        "email": "",
+        "phoneNumber": "",
+        "address": "",
+        "occupation": "",
+        "gearForRent": {
+            "truckTypes": [1],
+            "equipment": [1]
+        }
+    }]
+},
+{
+    "renters": [{
+        "id": "",
+        "name": "",
+        "email": "",
+        "phoneNumber": "",
+        "address": "",
+        "occupation": "",
+        "rentedGear": {
+            "trucks": [1],
+            "equipment": [1]
+        }
+    }]
+}]
+}
