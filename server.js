@@ -16,11 +16,12 @@ app.use(express.json());
 
 // Firebase SDK
 // =============================================================
+
 const firebase = require("firebase/app");
 require("firebase/auth");
 require("firebase/firestore");
 
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyAhx1kN7KqwqIMH5Evj7ZfCrghDaQvdX8o",
   authDomain: "omegon-gda-default-rtdb.firebaseapp.com",
   databaseURL: "https://omegon-gda-default-rtdb.firebaseio.com",
@@ -36,6 +37,8 @@ firebase.initializeApp(firebaseConfig);
 //------- Start routes
 // Routes
 // =============================================================
+
+app.use('./server/routes/dbroutes.js');
 // import routes to the app.js.
 // Routes
 //------- End routes
