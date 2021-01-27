@@ -8,8 +8,8 @@
         "occupation": "",
         "isOwnerOp": true,
         "gearForRent": {
-            "truckTypes": [1],
-            "equipment": [1]
+            "truckTypes": [""],
+            "equipment": [""]
         }
     }]
 },
@@ -23,8 +23,8 @@
         "occupation": "",
         "isOwnerOp": false,
         "rentedGear": {
-            "trucks": [1],
-            "equipment": [1]
+            "trucks": [""],
+            "equipment": [""]
         }
     }]
 }]

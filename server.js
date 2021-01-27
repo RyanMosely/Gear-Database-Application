@@ -16,33 +16,33 @@ app.use(express.json());
 
 // Firebase SDK
 // =============================================================
-// require("./server/database/firebaseConfig");
-require("./server/routes/dbroutes.js");
-// const firebase = require("firebase/app");
-// require("firebase/auth");
-// require("firebase/firestore");
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAhx1kN7KqwqIMH5Evj7ZfCrghDaQvdX8o",
-//   authDomain: "omegon-gda-default-rtdb.firebaseapp.com",
-//   databaseURL: "https://omegon-gda-default-rtdb.firebaseio.com",
-//   projectId: "omegon-gda-default-rtdb",
-//   storageBucket: "omegon-gda-default-rtdb.appspot.com",
-//   messagingSenderId: "827718843519",
-//   appId: "1:827718843519:web:07f06f36407e063135934a",
-//   // measurementId: "G-MEASUREMENT_ID",
-// };
 
-// firebase.initializeApp(firebaseConfig);
 
 //------- Start routes
 // Routes
 // =============================================================
-// const firebase = require("./server/database/firebaseConfig")
-// app.use(firebase);
-// import routes to the app.js.
+const router = require('./server/routes/dbroutes');
+app.use('/api', router);
 // Routes
 //------- End routes
+
+// Error Middleware
+app.use((req, res, next) => {
+  const err = new Error("Not Found");
+  err.status = 404;
+  next(err);
+});
+
+// Error Handler
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.json({
+      error: {
+          message: err.message
+      }
+  })
+})
 
 app.get("*", (req, res) => {
   // const rootHtmlPath = path.resolve("./client/public", "index.html");
