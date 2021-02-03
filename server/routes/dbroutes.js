@@ -5,18 +5,21 @@ const url = 'mongodb+srv://Ryan:omegon1234@cluster0.kbzjm.mongodb.net/gda?retryW
 const client = new MongoClient(url);
 
 // Read Data
-// const readData = router.get('/users', async (req, res) => {
-//   try {
-//     const data = await db.ref('/users').once('value', snapshot => {
-//       return snapshot.val();
-//     });
-//     res.status(200).send(data);
-//     console.log(data);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).send({fail: "No Data to Read"})
-//   }
-//   });
+router.get('/users', async (req, res) => {
+  const client = new MongoClient(url);
+  try {
+    await client.connect();
+    const db = client.db();
+    const data = await db.collection('gda-object').find().toArray();
+    res.status(200).send(data);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message: "No Data to Read"})
+  }
+  client.close();
+  res.json(data);
+  });
 
 // Write Data
 router.post('/users', async (req, res) => {
