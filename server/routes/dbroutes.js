@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb+srv://Ryan:omegon1234@cluster0.kbzjm.mongodb.net/gda?retryWrites=true&w=majority'
+const url = 'mongodb+srv://Ryan:omegon1234@cluster0.kbzjm.mongodb.net/gda?retryWrites=true&w=majority';
 const client = new MongoClient(url);
 
 // Read Data
@@ -41,15 +41,15 @@ router.post('/users', async (req, res) => {
     try {
       await client.connect();
       const db = client.db();
-      const result = db.collection('gda-object').insertOne(user);
-      // res.status(201).json(result);
+      db.collection('gda-object').insertOne(user);
+      // res.status(201).json(user);
 
     } catch (err) {
       console.log(err);
       res.status(500).send({fail: "Must enter information for user."})
     };
     client.close();
-    res.status(201).json(result);
+    res.status(201).json(user);
   });
 
   // exports.createUsers = createUsers;
