@@ -14,9 +14,6 @@ const port = process.env.PORT || 3001;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Firebase SDK
-// =============================================================
-
 
 
 //------- Start routes
@@ -24,6 +21,8 @@ app.use(express.json());
 // =============================================================
 const router = require('./server/routes/dbroutes');
 app.use('/api', router);
+
+
 // Routes
 
 app.get("*", (req, res) => {
@@ -32,6 +31,13 @@ app.get("*", (req, res) => {
   res.sendFile(__dirname + "/client/public/index.html");
 });
 //------- End routes
+
+
+app.get("*", (req, res) => {
+  // const rootHtmlPath = path.resolve("./client/public", "index.html");
+  // res.sendFile(rootHtmlPath);
+  res.sendFile(__dirname + "/client/public/index.html");
+});
 
 // Error Middleware
 app.use((req, res, next) => {
@@ -54,5 +60,6 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
   console.log(`The application is running on localhost:${port}`);
 });
+
 
 module.exports = app;

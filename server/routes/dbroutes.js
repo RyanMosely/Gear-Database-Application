@@ -1,46 +1,30 @@
 const express = require("express");
 const router = express.Router();
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb+srv://Ryan:omegon1234@cluster0.kbzjm.mongodb.net/gda?retryWrites=true&w=majority';
+const client = new MongoClient(url);
 
-// Firebase SDK Config
-// ============================================================= sets up Firebase authorization
-
-const firebase = require("firebase/app");
-require("firebase/auth");
-require("firebase/database");
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAhx1kN7KqwqIMH5Evj7ZfCrghDaQvdX8o",
-  authDomain: "omegon-gda-default-rtdb.firebaseapp.com",
-  databaseURL: "https://omegon-gda-default-rtdb.firebaseio.com",
-  projectId: "omegon-gda-default-rtdb",
-  storageBucket: "omegon-gda-default-rtdb.appspot.com",
-  messagingSenderId: "827718843519",
-  appId: "1:827718843519:web:07f06f36407e063135934a",
-  // measurementId: "G-MEASUREMENT_ID",
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const db = firebase.database();
 
 // Read Data
 router.get('/users', async (req, res) => {
+  const client = new MongoClient(url);
   try {
-    const data = await db.ref('/users').once('value', snapshot => {
-      return snapshot.val();
-    });
+    await client.connect();
+    const db = client.db();
+    const data = await db.collection('gda-object').find().toArray();
     res.status(200).send(data);
     console.log(data);
   } catch (err) {
     console.log(err);
-    res.status(500).send({fail: "No Data to Read"})
+    res.status(500).json({message: "No Data to Read"})
   }
+  client.close();
+  res.json(data);
   });
 
 // Write Data
 router.post('/users', async (req, res) => {
-  try {
-    const user = await db.ref('/users/0/ownerOperator').push({
+    const user = {
       address: req.body.address,
       email: req.body.email,
       gearForRent: {
@@ -52,13 +36,89 @@ router.post('/users', async (req, res) => {
       name: req.body.name,
       occupation: req.body.occupation,
       phoneNumber: req.body.phoneNumber
-    });
+};
+
+// if(user.isOwnerOp = true){
+  
+// }
+    
+
+    try {
+      await client.connect();
+      const db = client.db();
+      db.collection('gda-object').insertOne(user);
+      // res.status(201).json(user);
+
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({fail: "Must enter information for user."})
+    };
+    client.close();
     res.status(201).json(user);
-    console.log(user);
+  });
+
+// Update Data
+router.post('/users/update', async (req, res) => {
+  const user = {
+    address: req.body.address,
+    email: req.body.email,
+    gearForRent: {
+      truckTypes: req.body.gearForRent.truckTypes,
+      equipment: req.body.gearForRent.equipment
+    },
+    id: req.body.id,
+    isOwnerOp: req.body.isOwnerOp,
+    name: req.body.name,
+    occupation: req.body.occupation,
+    phoneNumber: req.body.phoneNumber
+};
+
+if(user.isOwnerOp = true){
+
+  await client.connect();
+  const db = client.db();
+  var ObjectId = require('mongodb').ObjectId; 
+
+  var id = '6018a889758aae2258e7d7d1';
+  var o_id = new ObjectId(id);
+  
+
+
+    
+
+  db.collection('gda-object').update(
+    { _id : o_id},
+    { $push: {"users": {
+      address: req.body.address,
+      email: req.body.email,
+      gearForRent: {
+        truckTypes: req.body.gearForRent.truckTypes,
+        equipment: req.body.gearForRent.equipment
+      },
+      id: req.body.id,
+      isOwnerOp: req.body.isOwnerOp,
+      name: req.body.name,
+      occupation: req.body.occupation,
+      phoneNumber: req.body.phoneNumber
+  }}}
+)
+}
+  
+
+  try {
+    await client.connect();
+    const db = client.db();
+    db.collection('gda-object').insertOne(user);
+    // res.status(201).json(user);
+
   } catch (err) {
     console.log(err);
     res.status(500).send({fail: "Must enter information for user."})
-  }
-  });
+  };
+  client.close();
+  res.status(201).json(user);
+});
 
+  // exports.createUsers = createUsers;
+  // exports.readData = readData;
   module.exports = router;
