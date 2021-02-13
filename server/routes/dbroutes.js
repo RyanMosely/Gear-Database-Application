@@ -21,6 +21,11 @@ router.get('/users', async (req, res) => {
   res.json(data);
   });
 
+  router.get('/', function (req, res) {
+    res.send('hello world')
+    console.log('A little somethin somethin');
+  })
+
 // Write Data
 router.post('/users', async (req, res) => {
     const user = {
