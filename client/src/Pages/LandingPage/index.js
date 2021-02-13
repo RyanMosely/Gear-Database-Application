@@ -4,12 +4,10 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import UserImg from '../../user.png';
 import InfoCard from '../../components/InfoCard';
-import TopNavbar from '../../components/Navbar'
 
 function Profile() {
     return (
         <Container id="profile">
-            <TopNavbar />
             <Row>
                 <Col>
                     <img className="profile-pic" src={UserImg} alt="random text about pic"/>

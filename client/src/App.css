@@ -65,3 +65,9 @@
 .item-listing {
   flex-wrap: wrap;
 }
+
+@media sceen and (max-width: 700px) {
+  .gear-type-col {
+    height: 0px;
+  }
+}

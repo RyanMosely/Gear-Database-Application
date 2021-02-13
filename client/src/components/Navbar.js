@@ -1,16 +1,21 @@
 import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 
 function TopNavbar() {
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="#profile">Profile</Nav.Link>
-                    <Nav.Link href="#a-la-carte">Item Selection</Nav.Link>
+                    <Nav.Item>
+                        <Link to="/">Profile</Link>
+                    </Nav.Item>
+                    <Nav.Item className="ml-2">
+                        <Link to="/alacarte">Item Selection</Link>
+                    </Nav.Item>                         
                 </Nav>
+                <Button variant="light">View Cart</Button>
             </Navbar.Collapse>
         </Navbar>
     )
