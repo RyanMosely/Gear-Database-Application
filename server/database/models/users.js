@@ -27,7 +27,10 @@ const usersSchema = new Schema(
         type: Boolean,
         required: "Please say if you are an Owner or Renter."
       },
-    //   gear: [gear],
+      gear: {
+          type: Schema.Types.Mixed, 
+          ref: 'Gear'
+        },
       occupation: {
         type: String,
         trim: true,
