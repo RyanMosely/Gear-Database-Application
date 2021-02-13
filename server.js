@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
 
 // Dependencies
 // =============================================================
@@ -14,6 +15,20 @@ const port = process.env.PORT || 3001;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Mongoose/Mongo
+const url = 'mongodb+srv://Ryan:omegon1234@cluster0.kbzjm.mongodb.net/gda?retryWrites=true&w=majority';
+try {
+  mongoose.connect(process.env.MONGODB_URI || url,
+    {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
+    }, 
+    () => console.log("Mongoose is connected."));
+} catch (error) {
+  console.error(error);
+  console.log("Could not connect Mongoose."); 
+}
 
 
 //------- Start routes
