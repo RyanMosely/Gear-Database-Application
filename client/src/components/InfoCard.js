@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 function InfoCard() {
     return (
-        <Card id="card" style={{ width: '18rem' }}>
+        <Card id="card">
             <Card.Img variant="top" src={PlaceholderImg} />
             <br />
             <Button variant="primary">Primary</Button>{' '}
