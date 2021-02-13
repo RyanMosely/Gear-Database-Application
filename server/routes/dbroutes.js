@@ -47,7 +47,6 @@ router.post('/users', async (req, res) => {
       await client.connect();
       const db = client.db();
       db.collection('gda-object').insertOne(user);
-      // res.status(201).json(user);
 
     } catch (err) {
       console.log(err);
@@ -109,7 +108,6 @@ if(user.isOwnerOp = true){
     await client.connect();
     const db = client.db();
     db.collection('gda-object').insertOne(user);
-    // res.status(201).json(user);
 
   } catch (err) {
     console.log(err);
@@ -119,6 +117,4 @@ if(user.isOwnerOp = true){
   res.status(201).json(user);
 });
 
-  // exports.createUsers = createUsers;
-  // exports.readData = readData;
   module.exports = router;
