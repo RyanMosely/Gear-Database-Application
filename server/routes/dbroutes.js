@@ -52,6 +52,4 @@ router.post('/users', async (req, res) => {
     res.status(201).json(user);
   });
 
-  // exports.createUsers = createUsers;
-  // exports.readData = readData;
   module.exports = router;
