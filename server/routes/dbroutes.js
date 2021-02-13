@@ -58,7 +58,7 @@ router.post('/users', async (req, res) => {
   });
 
 // Update Data
-router.post('/users/update', async (req, res) => {
+router.put('/users/update/:username', async (req, res) => {
   const user = {
     address: req.body.address,
     email: req.body.email,
