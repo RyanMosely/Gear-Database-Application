@@ -24,6 +24,12 @@ app.use('/api', router);
 
 
 // Routes
+
+app.get("*", (req, res) => {
+  // const rootHtmlPath = path.resolve("./client/public", "index.html");
+  // res.sendFile(rootHtmlPath);
+  res.sendFile(__dirname + "/client/public/index.html");
+});
 //------- End routes
 
 
@@ -49,6 +55,7 @@ app.use((err, req, res, next) => {
       }
   })
 })
+
 
 app.listen(port, () => {
   console.log(`The application is running on localhost:${port}`);
