@@ -1,0 +1,15 @@
+{"equipment": {
+  "hmi lights": [{}],
+  "led lights": [{}],
+  "tungsten lights": [{}],
+  "fluorescent lights": [{}],
+  "dmx and control": [{}],
+  "power distribution": [{}],
+  "portable power": [{}]
+},
+"trucks": {
+  "sprinter van": [{}],
+  "5 ton": [{}],
+  "10 ton": [{}]
+}
+}
