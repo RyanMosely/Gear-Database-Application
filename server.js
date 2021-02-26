@@ -14,6 +14,7 @@ const port = process.env.PORT || 3001;
 // =============================================================
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '/client/public')));
 
 // Mongoose/Mongo
 const url = 'mongodb+srv://Ryan:omegon1234@cluster0.kbzjm.mongodb.net/gda?retryWrites=true&w=majority';
