@@ -6,15 +6,17 @@ const mongoose = require("mongoose");
 // =============================================================
 const path = require("path");
 const port = process.env.PORT || 3001;
+const cors = require("cors");
 
 // Sets up the Express App
 // =============================================================
 
 // set up the Express app to handle data parsing
 // =============================================================
+app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '/client/public')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Mongoose/Mongo
 const url = 'mongodb+srv://Ryan:omegon1234@cluster0.kbzjm.mongodb.net/gda?retryWrites=true&w=majority';
@@ -44,7 +46,7 @@ app.use('/api', router);
 app.get("*", (req, res) => {
   // const rootHtmlPath = path.resolve("./client/public", "index.html");
   // res.sendFile(rootHtmlPath);
-  res.sendFile(__dirname + "/client/public/index.html");
+  res.sendFile(path.join(__dirname + "/client/public/index.html"));
 });
 //------- End routes
 

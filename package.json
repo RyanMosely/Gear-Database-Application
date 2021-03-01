@@ -24,8 +24,10 @@
     "concurrently": "^5.3.0"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongodb": "^3.6.4",
     "mongoose": "^5.11.16"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }
