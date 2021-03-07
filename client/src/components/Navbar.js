@@ -9,11 +9,11 @@ function TopNavbar() {
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
                     <Nav.Item>
-                        <Link to="/">Profile</Link>
+                        <Link to="/landing-page">Profile</Link>
                     </Nav.Item>
                     <Nav.Item className="ml-2">
                         <Link to="/alacarte">Item Selection</Link>
-                    </Nav.Item>                         
+                    </Nav.Item>                        
                 </Nav>
                 <Button variant="light">View Cart</Button>
             </Navbar.Collapse>
