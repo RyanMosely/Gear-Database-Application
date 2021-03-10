@@ -10,7 +10,7 @@ import './index.scss';
 function signInSignUp() {
     return (
         <Container id="profile">
-          <div class="sign-up-container">
+          <div className="sign-in-container">
          <Form>
   <Form.Group controlId="formBasicEmail">
     <Form.Label>Email address</Form.Label>
