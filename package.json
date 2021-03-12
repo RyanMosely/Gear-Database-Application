@@ -25,6 +25,10 @@
   "dependencies": {
     "express": "^4.17.1",
     "mongodb": "^3.6.4",
-    "mongoose": "^5.11.16"
+    "mongoose": "^5.11.16",
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.5.0",
+    "sequelize-cli": "^6.2.0"
   }
 }
