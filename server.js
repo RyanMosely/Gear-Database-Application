@@ -4,7 +4,6 @@ const { Client } = require('pg');
 // Change 'database' to the database we name for the app
 const connectionString = 'postgres://postgres:Finally08@localhost:5432/test1';
 const app = express();
-const mongoose = require("mongoose");
 
 // Dependencies
 // =============================================================
@@ -16,7 +15,6 @@ const passportLocal = require("passport-local");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcryptjs");
 const session = require("express-session");
-const bodyParser = require('body-parser');
 
 
 
@@ -30,8 +28,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors({
   origin: "http://localhost:3000" // <-- client side location
 }))
@@ -43,21 +39,6 @@ app.use(session({
 }));
 
 app.use(cookieParser("secretcode"))
-
-// Mongoose/Mongo
-// const url = 'mongodb+srv://Ryan:omegon1234@cluster0.kbzjm.mongodb.net/gda?retryWrites=true&w=majority';
-// try {
-//   mongoose.connect(process.env.MONGODB_URI || url,
-//     {
-//     useNewUrlParser: true,
-//     useFindAndModify: false,
-//     useUnifiedTopology: true
-//     }, 
-//     () => console.log("Mongoose is connected."));
-// } catch (error) {
-//   console.error(error);
-//   console.log("Could not connect Mongoose."); 
-// }
 
 // Postgres
 const client = new Client({
