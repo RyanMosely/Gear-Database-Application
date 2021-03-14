@@ -78,13 +78,13 @@ const login = () => {
       <Col>
       <Form.Group controlId="City">
         <Form.Label>City</Form.Label>
-        <Form.Control type="text" placeholder="Enter email" />
+        <Form.Control type="text" placeholder="Enter City" />
           <Form.Text className="text-muted">
           </Form.Text>
       </Form.Group>
       <Form.Group controlId="Country">
         <Form.Label>Country</Form.Label>
-        <Form.Control type="text" placeholder="Enter email" />
+        <Form.Control type="text" placeholder="Enter Country" />
           <Form.Text className="text-muted">
           </Form.Text>
       </Form.Group>

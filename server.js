@@ -2,7 +2,7 @@ const express = require("express");
 // Postgres
 const { Client } = require('pg');
 // Change 'database' to the database we name for the app
-const connectionString = 'postgres://postgres:Finally08@localhost:5432/test1';
+const connectionString = process.env.DEV_DATABASE_URL || process.env.DATABASE_URL;
 const app = express();
 
 // Dependencies
