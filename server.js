@@ -7,6 +7,14 @@ const mongoose = require("mongoose");
 const path = require("path");
 const port = process.env.PORT || 3001;
 const cors = require("cors");
+const passport = require("passport");
+const passportLocal = require("passport-local");
+const cookieParser = require("cookie-parser");
+const bcrypt = require("bcryptjs");
+const session = require("express-session");
+const bodyParser = require('body-parser');
+
+
 
 // Sets up the Express App
 // =============================================================
@@ -17,6 +25,20 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors({
+  origin: "http://localhost:3000" // <-- client side location
+}))
+
+app.use(session({
+  secret: "secretcode",
+  resave: true,
+  saveUnitialized: true
+}));
+
+app.use(cookieParser("secretcode"))
 
 // Mongoose/Mongo
 const url = 'mongodb+srv://Ryan:omegon1234@cluster0.kbzjm.mongodb.net/gda?retryWrites=true&w=majority';
@@ -38,6 +60,7 @@ try {
 // Routes
 // =============================================================
 const router = require('./server/routes/dbroutes');
+const userAuth = require('./server/routes/user-auth');
 app.use('/api', router);
 
 
@@ -48,14 +71,18 @@ app.get("*", (req, res) => {
   // res.sendFile(rootHtmlPath);
   res.sendFile(path.join(__dirname + "/client/public/index.html"));
 });
+
+// app.get("*", (req, res) => {
+//   // const rootHtmlPath = path.resolve("./client/public", "index.html");
+//   // res.sendFile(rootHtmlPath);
+//   res.sendFile(__dirname + "/client/public/index.html");
+// });
+
+
+
 //------- End routes
 
 
-app.get("*", (req, res) => {
-  // const rootHtmlPath = path.resolve("./client/public", "index.html");
-  // res.sendFile(rootHtmlPath);
-  res.sendFile(__dirname + "/client/public/index.html");
-});
 
 // Error Middleware
 app.use((req, res, next) => {

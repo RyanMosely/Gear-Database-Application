@@ -8,6 +8,30 @@ import { Form, Button } from 'react-bootstrap';
 import './index.scss';
 
 function Register() {
+const [registerFirstName, setRegisterFirstName] = userState("");
+
+const regiser = () => {
+Axios({
+  method: "POST",
+  data: {
+    first_name: registerFirstName
+  },
+  withCredentials: true,
+  url: "http://localhost:3001/register",
+}).then((res) => console.log(res));
+}
+
+const login = () => {
+  Axios({
+    method: "POST",
+    data: {
+      first_name: registerFirstName
+    },
+    withCredentials: true,
+    url: "http://localhost:3001/login",
+  }).then((res) => console.log(res));
+  }
+
     return (
 <Container id="profile">
   <div className="sign-up-container">
