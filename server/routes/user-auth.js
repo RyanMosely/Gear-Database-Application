@@ -1,16 +1,82 @@
 const express = require("express");
-const Users = require("../database/models/users");
+const User = require("../database/models/user");
 const router = express.Router();
 const readControllers = require('../controllers/readData');
 const writeControllers = require('../controllers/writeData');
+const passport = require("../middleware/passport");
 
 
-app.post("/login", (req, res) => {
+router.post("/login", (req, res, next) => {
+  console.log("routes/user.js, login, req.body: ");
   console.log(req.body);
+  next();
+},
+passport.authenticate("local"),
+(req, res) => {
+  console.log("logged in", req.user);
+  const userInfo = {
+    email: req.user.email,
+  };
+  res.send(userInfo);
 });
 
-app.post("/register", (req, res) => {
-  console.log(req.body);
+router.post("/register", (req, res) => {
+  console.log("user signup");
+
+  const { 
+    firstname,
+    lastname,
+    email,
+    phonenumber,
+    addressline1,
+    addressline2,
+    city,
+    country,
+    state,
+    zipcode,
+    occupation,
+    password } = req.body;
+  // ADD VALIDATION
+  User.findOne({ email: email }, (err, user) => {
+    if (err) {
+      console.log("User.js post error: ", err);
+    } else if (user) {
+      res.json({
+        error: `Sorry, already a user with the email: ${email}`,
+      });
+    } else {
+      const newUser = new User({
+        password: password,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        phonenumber: phonenumber,
+        addressline1: addressline1,
+        addressline2: addressline2,
+        city: city,
+        country: country,
+        state: state,
+        zipcode: zipcode,
+        occupation: occupation,
+        password: password
+      });
+      newUser.save((err, savedUser) => {
+        if (err) return res.json(err);
+        res.json(savedUser);
+      });
+    }
+  });
 });
 
-app.get("/user", (req, res) => {})
+// router.get("/user", (req, res) => {})
+
+router.post("/logout", (req, res) => {
+  if (req.user) {
+    req.logout();
+    res.send({ msg: "logging out" });
+  } else {
+    res.send({ msg: "no user to log out" });
+  }
+});
+
+module.exports = router;
