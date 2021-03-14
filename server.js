@@ -15,8 +15,10 @@ const passportLocal = require("passport-local");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcryptjs");
 const session = require("express-session");
+const pgSession = require("connect-pg-simple")(session);
 const flash = require("connect-flash");
 const logger = require("morgan");
+const sessionConfig = require("./server/config/passportSession/sessionConfig");
 
 
 
@@ -36,35 +38,13 @@ app.use(cors({
   origin: "http://localhost:3000" // <-- client side location
 }))
 
-app.use(session({
-  secret: "secretcode",
-  resave: true,
-  saveUnitialized: true
-}));
-
-// app.use(
-//   session({
-//     secret: config.sessionKey,
-//     store: new MongoStore({
-//       mongooseConnection: dbConnection,
-//       collection: "sessions",
-//     }),
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: {
-//       maxAge: 1000 * 30,
-//     },
-//   })
-// );
-
-app.use(cookieParser("secretcode"))
+app.use(session(sessionConfig))
 
 // Passport Middleware
 // =============================================================
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(authCheck);
 
 
 // Postgres
