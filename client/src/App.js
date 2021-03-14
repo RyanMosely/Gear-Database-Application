@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import TopNavbar from './components/Navbar'
 import LandingPage from "./Pages/LandingPage";
 import AlaCartePage from "./Pages/AlaCarte"
+import SignInSignUp from "./Pages/SignInSignUp"
+import Register from "./Pages/Register"
 
 import './App.css';
 
@@ -13,8 +15,10 @@ function App() {
     <Router>
       <TopNavbar />
         <Switch>
-          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/landing-page" component={LandingPage} />
           <Route path="/alacarte" component={AlaCartePage} />
+          <Route path="/register" component={Register} />
+          <Route path="/" component={SignInSignUp} />
         </Switch>
     </Router>
   </React.Fragment>
