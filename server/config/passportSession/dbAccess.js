@@ -1,10 +1,13 @@
 require('dotenv').config();
+const sessionPool = require('pg').Pool
 
 const sessionDBaccess = new sessionPool({
-    user: DB_USER,
-    password: DB_PASS,
-    host: DB_HOST,
-    port: DB_PORT,
-    database: DB_NAME})
+    adapter: 'connect-pg-simple',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME
+})
 
 module.exports = sessionDBaccess;

@@ -1,9 +1,6 @@
 const express = require("express");
-// Postgres
-const { Client } = require('pg');
-// Change 'database' to the database we name for the app
-const connectionString = process.env.DEV_DATABASE_URL || process.env.DATABASE_URL;
 const app = express();
+require('dotenv').config();
 
 // Dependencies
 // =============================================================
@@ -12,11 +9,11 @@ const port = process.env.PORT || 3001;
 const cors = require("cors");
 const passport = require("./server/middleware/passport");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
-const pgSession = require("connect-pg-simple")(session);
+const session = require('express-session')
 const flash = require("connect-flash");
 const logger = require("morgan");
 const sessionConfig = require("./server/config/passportSession/sessionConfig");
+const user = require("./server/routes/user-auth");
 
 
 
@@ -36,35 +33,57 @@ app.use(cors({
   origin: "http://localhost:3000" // <-- client side location
 }))
 
-app.use(session(sessionConfig))
+// Postgres
+// =============================================================
+const { Pool, Client } = require('pg');
+
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
+  port: process.env.DB_PORT,
+})
+
+// pool.query("SELECT NOW()", (err, res) => {
+//   console.log(err, res);
+//   pool.end()
+// });
+
+const client = new Client({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
+  port: process.env.DB_PORT,
+});
+
+client.connect()
+  .then(() => console.log("Connected to Postgres!"))
+  .catch(err => console.error("Connection Error:", err.stack));
+
+// client.query('SELECT NOW()', (err, res) => {
+//   console.log(err, res)
+//   client.end()
+//   })
 
 // Passport Middleware
 // =============================================================
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+app.use(session(sessionConfig))
 
-
-// Postgres
-// =============================================================
-const { Client } = require('pg');
-// Change 'database' to the database we name for the app
-const connectionString = process.env.DEV_DATABASE_URL || process.env.DATABASE_URL;
-const client = new Client({
-  connectionString: connectionString
-});
-client.connect();
-
-app.get('/', function (req, res, next) {
-    client.query('SELECT * FROM posts where id = $1', [1], function (err, result) {
-        if (err) {
-            console.log(err);
-            res.status(400).send(err);
-        }
-        res.status(200).send(result);
-        console.log(result);
-    });
-});
+// app.get('/', function (req, res, next) {
+//     client.query('SELECT * FROM posts where id = $1', [1], function (err, result) {
+//         if (err) {
+//             console.log(err);
+//             res.status(400).send(err);
+//         }
+//         res.status(200).send(result);
+//         console.log(result);
+//     });
+// });
 
 //------- Start routes
 // Routes
@@ -76,11 +95,11 @@ app.use("/", user);
 
 // Routes
 
-// app.get("*", (req, res) => {
-//   // const rootHtmlPath = path.resolve("./client/public", "index.html");
-//   // res.sendFile(rootHtmlPath);
-//   res.sendFile(__dirname + "/client/public/index.html");
-// });
+app.get("*", (req, res) => {
+  // const rootHtmlPath = path.resolve("./client/public", "index.html");
+  // res.sendFile(rootHtmlPath);
+  res.sendFile(path.join(__dirname + "/client/public/index.html"));
+});
 
 
 

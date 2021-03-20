@@ -1,5 +1,7 @@
+require('dotenv').config();
+
 const secretConfig = {
-    sessionKey: process.env.SESSION_SECRET || "WelcomeToGDA"
+    secret: 'WelcomToGDA'
   }
   
 module.exports = secretConfig;

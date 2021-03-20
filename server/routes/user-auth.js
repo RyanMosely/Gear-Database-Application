@@ -1,8 +1,8 @@
 const express = require("express");
 const User = require("../database/models/user");
 const router = express.Router();
-const readControllers = require('../controllers/readData');
-const writeControllers = require('../controllers/writeData');
+// const readControllers = require('../controllers/readData');
+// const writeControllers = require('../controllers/writeData');
 const passport = require("../middleware/passport");
 
 
@@ -69,6 +69,16 @@ router.post("/register", (req, res) => {
 });
 
 // router.get("/user", (req, res) => {})
+
+router.get("/", (req, res, next) => {
+  console.log("===== user!!======");
+  console.log(req.user);
+  if (req.user) {
+    res.json({ user: req.user });
+  } else {
+    res.json({ user: null });
+  }
+});
 
 router.post("/logout", (req, res) => {
   if (req.user) {
