@@ -37,7 +37,7 @@ router.post("/register", (req, res) => {
     occupation,
     password } = req.body;
   // ADD VALIDATION
-  User.findOne({ email: email }, (err, user) => {
+  User.findAll({ email: email }, (err, user) => {
     if (err) {
       console.log("User.js post error: ", err);
     } else if (user) {
@@ -58,7 +58,6 @@ router.post("/register", (req, res) => {
         state: state,
         zipcode: zipcode,
         occupation: occupation,
-        password: password
       });
       newUser.save((err, savedUser) => {
         if (err) return res.json(err);

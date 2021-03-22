@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const secretConfig = {
-    secret: 'WelcomToGDA'
+    secret: "WelcomToGDA"
   }
   
 module.exports = secretConfig;
