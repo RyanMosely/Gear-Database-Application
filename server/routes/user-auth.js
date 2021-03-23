@@ -1,5 +1,5 @@
 const express = require("express");
-const User = require("../database/models/user");
+const User = require('../database/models').User;
 const router = express.Router();
 // const readControllers = require('../controllers/readData');
 // const writeControllers = require('../controllers/writeData');
@@ -37,7 +37,7 @@ router.post("/register", (req, res) => {
     occupation,
     password } = req.body;
   // ADD VALIDATION
-  User.findAll({ email: email }, (err, user) => {
+  User.findOne({where: { email: req.body.email }}, (err, user) => {
     if (err) {
       console.log("User.js post error: ", err);
     } else if (user) {
@@ -64,7 +64,8 @@ router.post("/register", (req, res) => {
         res.json(savedUser);
       });
     }
-  });
+  })
+  .catch(err => console.log(err));
 });
 
 // router.get("/user", (req, res) => {})

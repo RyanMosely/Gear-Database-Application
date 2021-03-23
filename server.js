@@ -45,10 +45,10 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 })
 
-// pool.query("SELECT NOW()", (err, res) => {
-//   console.log(err, res);
-//   pool.end()
-// });
+pool.query("SELECT NOW()", (err, res) => {
+  console.log(err, res);
+  pool.end()
+});
 
 const client = new Client({
   user: process.env.DB_USER,
@@ -62,10 +62,10 @@ client.connect()
   .then(() => console.log("Connected to Postgres!"))
   .catch(err => console.error("Connection Error:", err.stack));
 
-// client.query('SELECT NOW()', (err, res) => {
-//   console.log(err, res)
-//   client.end()
-//   })
+client.query('SELECT NOW()', (err, res) => {
+  console.log(err, res)
+  client.end()
+  })
 
 // Passport Middleware
 // =============================================================
