@@ -1,5 +1,6 @@
 const express = require("express");
-const User = require('../database/models').User;
+const models = require('../database/models');
+const Users = models.User;
 const router = express.Router();
 // const readControllers = require('../controllers/readData');
 // const writeControllers = require('../controllers/writeData');
@@ -37,15 +38,16 @@ router.post("/register", (req, res) => {
     occupation,
     password } = req.body;
   // ADD VALIDATION
-  User.findOne({where: { email: req.body.email }}, (err, user) => {
+  Users.findOne({where: { email: email }}, (err, user) => {
     if (err) {
       console.log("User.js post error: ", err);
     } else if (user) {
       res.json({
         error: `Sorry, already a user with the email: ${email}`,
       });
-    } else {
-      const newUser = new User({
+    }})
+    .then( user => {
+      user = Users.create({
         password: password,
         firstname: firstname,
         lastname: lastname,
@@ -58,14 +60,17 @@ router.post("/register", (req, res) => {
         state: state,
         zipcode: zipcode,
         occupation: occupation,
-      });
-      newUser.save((err, savedUser) => {
-        if (err) return res.json(err);
-        res.json(savedUser);
-      });
-    }
-  })
-  .catch(err => console.log(err));
+      })
+    })
+    .then((err, savedUser) => {
+      if (err) return res.status(500).send({fail: err});
+      console.log(savedUser);
+      res.status(201).json(savedUser);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send({fail: "Must enter information for user."})
+    });
 });
 
 // router.get("/user", (req, res) => {})
