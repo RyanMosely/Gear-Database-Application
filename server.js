@@ -74,22 +74,12 @@ app.use(passport.session());
 app.use(flash());
 app.use(session(sessionConfig))
 
-// app.get('/', function (req, res, next) {
-//     client.query('SELECT * FROM posts where id = $1', [1], function (err, result) {
-//         if (err) {
-//             console.log(err);
-//             res.status(400).send(err);
-//         }
-//         res.status(200).send(result);
-//         console.log(result);
-//     });
-// });
 
 //------- Start routes
 // Routes
 // =============================================================
-// const router = require('./server/routes/dbroutes');
-// app.use('/api', router);
+const router = require('./server/routes/dbroutes');
+app.use('/api', router);
 app.use("/", user);
 
 

@@ -1,7 +1,8 @@
-const Users = require("../database/models/users");
+const models = require('../database/models');
+const Users = models.User;
 
 const readAllUsers = (req, res) => {
-    Users.find({})
+    Users.findAll()
     .then(user => {
       res.status(200).json(user);
     })
