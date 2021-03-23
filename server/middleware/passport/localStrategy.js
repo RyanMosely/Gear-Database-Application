@@ -6,8 +6,9 @@ const strategy = new LocalStrategy(
   {
     usernameField: "email", // not necessary, DEFAULT
   },
-  (email, password, done) => {
-    Users.findOne({where:{ email: email }}, (err, user) => {
+  async (email, password, done) => {
+   const login = await Users.findOne({where:{ email: email }}, (err, user) => {
+      console.log(login);
       if (err) {
         return done(err);
       }
@@ -18,6 +19,10 @@ const strategy = new LocalStrategy(
         return done(null, false, { message: "Incorrect password" });
       }
       return done(null, user);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send({fail: "Unauthorized Error"})
     });
   }
 );
