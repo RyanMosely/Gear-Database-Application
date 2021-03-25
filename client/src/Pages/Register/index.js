@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -6,6 +6,7 @@ import UserImg from '../../user.png';
 import InfoCard from '../../components/InfoCard';
 import { Form, Button } from 'react-bootstrap';
 import './index.scss';
+import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'http://localhost:3001/'
@@ -27,31 +28,32 @@ const Register = () => {
 
   const registerUser = async () => {
     let res = await api.post('/register', {
-      firstName: firstName,
-      lastName: lastName,
+      firstname: firstName,
+      lastname: lastName,
       email: email,
-      phoneNumber: phoneNumber,
-      addressLine1: addressLine1,
-      addressLine2: addressLine2,
+      phonenumber: phoneNumber,
+      addressline1: addressLine1,
+      addressline2: addressLine2,
       city: city,
       country: country,
       state: state,
-      zipCode: zipCode,
+      zipcode: zipCode,
       occupation: occupation
     })
     console.log(res);
   }
 
-  const login = () => {
-    Axios({
-      method: "POST",
-      data: {
-        first_name: FirstName
-      },
-      withCredentials: true,
-      url: "http://localhost:3001/login",
-    }).then((res) => console.log(res));
-  }
+  // Rewrite this Code Block
+  // const login = () => {
+  //   Axios({
+  //     method: "POST",
+  //     data: {
+  //       first_name: FirstName
+  //     },
+  //     withCredentials: true,
+  //     url: "http://localhost:3001/login",
+  //   }).then((res) => console.log(res));
+  // }
 
   return (
     <Container id="profile">
