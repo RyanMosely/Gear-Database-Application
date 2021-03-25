@@ -21,7 +21,7 @@ passport.authenticate("local"),
   res.send(userInfo);
 });
 
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   console.log("user signup");
 
   const { 
@@ -37,17 +37,17 @@ router.post("/register", (req, res) => {
     zipcode,
     occupation,
     password } = req.body;
+
   // ADD VALIDATION
-  Users.findOne({where: { email: email }}, (err, user) => {
+  await Users.findOne({where: { email: email }}, (err, user) => {
     if (err) {
       console.log("User.js post error: ", err);
     } else if (user) {
       res.json({
         error: `Sorry, already a user with the email: ${email}`,
       });
-    }})
-    .then( user => {
-      user = Users.create({
+    }}, async user => {
+      await Users.create({
         password: password,
         firstname: firstname,
         lastname: lastname,
@@ -62,7 +62,7 @@ router.post("/register", (req, res) => {
         occupation: occupation,
       })
     })
-    .then((err, savedUser) => {
+    .then((savedUser, err) => {
       if (err) return res.status(500).send({fail: err});
       console.log(savedUser);
       res.status(201).json(savedUser);

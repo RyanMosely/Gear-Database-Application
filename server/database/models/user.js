@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 'use strict';
 const {
   Model
@@ -12,7 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    validPassword = password => {
+      return bcrypt.compareSync(password, this.password);
+    }
   };
+
   User.init({
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
@@ -27,8 +34,23 @@ module.exports = (sequelize, DataTypes) => {
     occupation: DataTypes.STRING,
     password: DataTypes.STRING
   }, {
-    sequelize,
+    sequelize:sequelize,
     modelName: 'User',
+  }, {
+    hooks: {
+      beforeCreate: user => {
+        return bcrypt.genSaltSync()
+        .then( salt => {
+          user.password = bcrypt.hashSync(user.password, salt);
+        })
+        .catch(err => console.log(err));
+      },
+    }
   });
+
+  sequelize.sync()
+    .then(() => console.log('users table has been successfully created, if one doesn\'t exist'))
+    .catch(err => console.log('This error occured', err));
+
   return User;
 };

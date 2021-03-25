@@ -11,13 +11,13 @@ passport.serializeUser((user, done) => {
   console.log("*** serializeUser called, user: ");
   console.log(user); // the whole raw user object!
   console.log("---------");
-  done(null, { email: user.email });
+  done(null, { id: user.id });
 });
 
 // user object attaches to the request as req.user
-passport.deserializeUser((email, done) => {
+passport.deserializeUser((id, done) => {
   console.log("DeserializeUser called");
-  Users.findOne({where: { email: email }}, "email", (err, user) => {
+  Users.findOne({where: { id: id }}, (err, user) => {
     console.log("*** Deserialize user, email:");
     console.log(user);
     console.log("--------------");

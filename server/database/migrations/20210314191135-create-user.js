@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt');
-
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -75,19 +73,19 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    }, {
-      hooks: {
-        beforeCreate: user => {
-          const salt = bcrypt.genSaltSync();
-          user.password = bcrypt.hashSync(user.password, salt);
-        }
-      },
-      instanceMethods: {
-        validPassword: password => {
-          return bcrypt.compareSync(password, this.password);
-        }
-      } 
-    });
+    }, 
+    // {
+    //   hooks: {
+    //     beforeCreate: async user => {
+    //       const salt = await bcrypt.genSaltSync();
+    //       user.password = await bcrypt.hashSync(user.password, salt);
+    //     },
+    //     validPassword: async password => {
+    //       return await bcrypt.compareSync(password, this.password);
+    //     }
+    //   } 
+    // }
+    );
   },
   // down: async (queryInterface, Sequelize) => {
   //   await queryInterface.dropTable('Users');
