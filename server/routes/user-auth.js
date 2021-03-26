@@ -39,38 +39,34 @@ router.post("/register", async (req, res) => {
     password } = req.body;
 
   // ADD VALIDATION
-  await Users.findOne({where: { email: email }}, (err, user) => {
-    if (err) {
-      console.log("User.js post error: ", err);
-    } else if (user) {
-      res.json({
-        error: `Sorry, already a user with the email: ${email}`,
-      });
-    }}, async user => {
-      await Users.create({
-        password: password,
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        phonenumber: phonenumber,
-        addressline1: addressline1,
-        addressline2: addressline2,
-        city: city,
-        country: country,
-        state: state,
-        zipcode: zipcode,
-        occupation: occupation,
-      })
-    })
-    .then((savedUser, err) => {
-      if (err) return res.status(500).send({fail: err});
-      console.log(savedUser);
-      res.status(201).json(savedUser);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).send({fail: "Must enter information for user."})
-    });
+  try {
+      const user = await Users.findOne({where: { email: email }});
+      if (user) { 
+        res.json({error: `Sorry, already a user with the email: ${email}`});
+      } else {
+          const newUser = await Users.create({
+            password: password,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            phonenumber: phonenumber,
+            addressline1: addressline1,
+            addressline2: addressline2,
+            city: city,
+            country: country,
+            state: state,
+            zipcode: zipcode,
+            occupation: occupation,
+          });
+          console.log("This is from Postgres:", newUser);
+          res.status(201).json(newUser);
+      }
+  } catch (err) {
+    console.log("User.js post error: ", err);
+    if (err) return res.status(500).send({fail: err});
+    console.log(err);
+    res.status(500).send({fail: "Must enter information for user."})
+  };
 });
 
 // router.get("/user", (req, res) => {})

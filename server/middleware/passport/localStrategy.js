@@ -8,24 +8,25 @@ const strategy = new LocalStrategy(
   {
     usernameField: "email", // not necessary, DEFAULT
   },
-    (email, password, done) => {
+    async (email, password, done) => {
      console.log(email);
      console.log(password);
-        Users.findOne({where: { email: email }})
-        .then((user, err) => {
-          console.log(user);
-          if (err) {
+     try {
+       const user = await Users.findOne({where: { email: email }});
+       console.log("Returned user from Postgres:", user);
+       if (!user) {
+        return done(null, false, { message: "Incorrect email" });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: "Incorrect password" });
+      }
+      return done(null, user);
+     } catch (err) {
+       console.log(err)
+       if (err) {
             return done(err);
           }
-          if (!user) {
-            return done(null, false, { message: "Incorrect email" });
-          }
-          if (!user.validPassword(password)) {
-            return done(null, false, { message: "Incorrect password" });
-          }
-          return done(null, user);
-        })
-        .catch(err => console.log(err));
+     }
     });
 
 module.exports = strategy;
