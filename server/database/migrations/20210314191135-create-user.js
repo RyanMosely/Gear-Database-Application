@@ -62,7 +62,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-          is: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$",
+          is: ["^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"]
         }
       }, 
       createdAt: {
@@ -74,20 +74,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     }, 
-    // {
-    //   hooks: {
-    //     beforeCreate: async user => {
-    //       const salt = await bcrypt.genSaltSync();
-    //       user.password = await bcrypt.hashSync(user.password, salt);
-    //     },
-    //     validPassword: async password => {
-    //       return await bcrypt.compareSync(password, this.password);
-    //     }
-    //   } 
-    // }
     );
   },
-  // down: async (queryInterface, Sequelize) => {
-  //   await queryInterface.dropTable('Users');
-  // }
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('Users');
+  }
 };
