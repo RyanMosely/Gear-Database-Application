@@ -62,7 +62,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-          is: ["^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"]
+          is: ["^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*?[@$!%*?&])[A-Za-z\d@$!%*?&].{8,}$"]
         }
       }, 
       createdAt: {
