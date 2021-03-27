@@ -92,16 +92,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.DATE
     }
-  }, {
+  },
+  {
     sequelize,
     modelName: 'User',
-  }, {
-    hooks: {
-      beforeCreate: user => {
-        const salt = bcrypt.genSaltSync();
-        user.password = bcrypt.hashSync(user.password, salt);
-      },
-    }
+  }
+  );
+
+  User.beforeCreate(user => {
+    const salt = bcrypt.genSaltSync();
+    user.password = bcrypt.hashSync(user.password, salt);
   });
 
   sequelize.sync()
