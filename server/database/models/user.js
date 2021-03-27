@@ -16,8 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     validPassword = password => {
-      if (password === this.password) return true;
-      // return bcrypt.compareSync(password, this.password);
+      return bcrypt.compareSync(password, this.password);
     }
   };
 
@@ -82,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        is: ["^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"]
+        is: ["^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*?[@$!%*?&])[A-Za-z\d@$!%*?&].{8,}$"]
       }
     }, 
     createdAt: {
@@ -99,11 +98,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: user => {
-        return bcrypt.genSaltSync()
-        .then( salt => {
-          user.password = bcrypt.hashSync(user.password, salt);
-        })
-        .catch(err => console.log(err));
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(user.password, salt);
       },
     }
   });
